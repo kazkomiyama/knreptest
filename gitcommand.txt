@@ -1,0 +1,8 @@
+git pull  https://github.com/kazkomiyama/knreptest.git
+git init
+git add . 
+git commit -m "first commit"
+git commit 
+git remote add origin https://github.com/kazkomiyama/knreptest.git
+git push -u origin master
+
