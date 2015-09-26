@@ -1,0 +1,41 @@
+# include the Dropbox SDK
+import dropbox
+
+
+# Get your app key and secret from the Dropbox developer website
+app_key = 'q70ankq9l2s8944'
+app_secret = '8nzuvabm91i9mr'
+
+flow = dropbox.client.DropboxOAuth2FlowNoRedirect(app_key, app_secret)
+authorize_url = flow.start()
+print '1. Go to: ' + authorize_url
+print '2. Click "Allow" (you might have to log in first)'
+print '3. Copy the authorization code.'
+code = raw_input("Enter the authorization code here: ").strip()
+
+# Include the Dropbox SDK libraries
+from dropbox import client, rest, session
+
+# Get your app key and secret from the Dropbox developer website
+APP_KEY = 'INSERT_APP_KEY_HERE'
+APP_SECRET = 'INSERT_SECRET_HERE'
+
+# ACCESS_TYPE should be 'dropbox' or 'app_folder' as configured for your app
+ACCESS_TYPE = 'app_folder'
+
+sess = session.DropboxSession(APP_KEY, APP_SECRET, ACCESS_TYPE)
+
+request_token = sess.obtain_request_token()
+
+url = sess.build_authorize_url(request_token)
+
+# Make the user sign in and authorize this token
+print "url:", url
+print "Please visit this website and press the 'Allow' button, then hit 'Enter' here."
+raw_input()
+
+# This will fail if the user didn't visit the above URL and hit 'Allow'
+access_token = sess.obtain_access_token(request_token)
+
+client = client.DropboxClient(sess)
+print "linked account:", client.account_info()
